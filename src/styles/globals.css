@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* General color tokens (HEX-based medium-dark theme) */
+  --background: #2E2E3A;
+  --foreground: #E5E5E5;
+
+  --card: #353550;
+  --card-foreground: #F0F0F0;
+
+  --popover: #3C3C67;
+  --popover-foreground: #FFFFFF;
+
+  --primary: #FF312E;
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #44445E;
+  --secondary-foreground: #E2E2E2;
+
+  --muted: #3C3C4F;
+  --muted-foreground: #A0A0A0;
+
+  --accent: #4B8BFF;
+  --accent-foreground: #FFFFFF;
+
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+
+  --border: #4A4A60;
+  --input: #3B3B4D;
+  --ring: #6C63FF;
+
+  /* Chart colors (preserved) */
+  --chart-1: #FF8856;
+  --chart-2: #4BC0A5;
+  --chart-3: #375D79;
+  --chart-4: #F7C15B;
+  --chart-5: #FFA24D;
+
+  /* Dark mode chart overrides (preserved) */
+  --chart-1-dark: #3B82F6;
+  --chart-2-dark: #22C55E;
+  --chart-3-dark: #FDBA74;
+  --chart-4-dark: #C084FC;
+  --chart-5-dark: #F472B6;
+
+  /* Radius (preserved) */
+  --radius: 0.5rem;
+}
+
+
+
+
+
+:root {
+  --foreground-rgb: var(--color-black-rgb);
+  --background-start-rgb: var(--color-gray-light-rgb);
+  --background-end-rgb: var(--color-white-rgb);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: var(--color-white-rgb);
+    --background-start-rgb: var(--color-black-rgb);
+    --background-end-rgb: var(--color-black-rgb);
+  }
+}
+
+
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: var(--color-white-hsl);
+    --foreground: var(--color-dark-hsl);
+    --card: var(--color-white-hsl);
+    --card-foreground: var(--color-card-fg-hsl);
+    --popover: var(--color-white-hsl);
+    --popover-foreground: var(--color-card-fg-hsl);
+    --primary: var(--color-primary-hsl);
+    --primary-foreground: var(--color-primary-fg-hsl);
+    --secondary: var(--color-muted-hsl);
+    --secondary-foreground: var(--color-secondary-fg-hsl);
+    --muted: var(--color-muted-hsl);
+    --muted-foreground: var(--color-muted-fg-hsl);
+    --accent: var(--color-muted-hsl);
+    --accent-foreground: var(--color-secondary-fg-hsl);
+    --destructive: var(--color-destructive-hsl);
+    --destructive-foreground: var(--color-primary-fg-hsl);
+    --border: var(--color-border-hsl);
+    --input: var(--color-border-hsl);
+    --ring: var(--color-ring-hsl);
+    --chart-1: var(--color-chart1);
+    --chart-2: var(--color-chart2);
+    --chart-3: var(--color-chart3);
+    --chart-4: var(--color-chart4);
+    --chart-5: var(--color-chart5);
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: var(--color-dark-hsl);
+    --foreground: var(--color-primary-fg-hsl);
+    --card: var(--color-dark-hsl);
+    --card-foreground: var(--color-primary-fg-hsl);
+    --popover: var(--color-dark-hsl);
+    --popover-foreground: var(--color-primary-fg-hsl);
+    --primary: var(--color-primary-fg-hsl);
+    --primary-foreground: var(--color-primary-hsl);
+    --secondary: var(--color-dark-bg-hsl);
+    --secondary-foreground: var(--color-primary-fg-hsl);
+    --muted: var(--color-dark-bg-hsl);
+    --muted-foreground: var(--color-dark-muted-fg);
+    --accent: var(--color-dark-bg-hsl);
+    --accent-foreground: var(--color-primary-fg-hsl);
+    --destructive: var(--color-dark-destructive);
+    --destructive-foreground: var(--color-primary-fg-hsl);
+    --border: var(--color-dark-bg-hsl);
+    --input: var(--color-dark-bg-hsl);
+    --ring: var(--color-dark-ring);
+    --chart-1: var(--color-dark-chart1);
+    --chart-2: var(--color-dark-chart2);
+    --chart-3: var(--color-dark-chart3);
+    --chart-4: var(--color-dark-chart4);
+    --chart-5: var(--color-dark-chart5);
+  }
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+
+
+
+.scrollbar-none {
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE/Edge */
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;                  /* Chrome/Safari */
+}
+
+/* 2. Hide thumb/track but keep width for consistent layout */
+.scrollbar-invisible {
+  scrollbar-width: thin;          /* minimal width in Firefox */
+}
+.scrollbar-invisible::-webkit-scrollbar {
+  width: 8px;                     /* keep gutter */
+  background: transparent;
+}
+.scrollbar-invisible::-webkit-scrollbar-thumb {
+  background: transparent;        /* hide thumb */
+}
