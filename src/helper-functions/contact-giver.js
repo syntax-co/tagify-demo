@@ -3,7 +3,7 @@
 export async function sendToTheGiver(command, data, opts = {}) {
   const endpoint =`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/command`; // fallback for Next.js API route
   
-  console.log(endpoint)
+  console.log(NEXT_PUBLIC_BACKEND_API_URL, 'hit')
 
   const res = await fetch(endpoint, {
     method: "POST",
