@@ -1,7 +1,7 @@
 // utils/theGiver.js
 // Sends a { command, data } payload to the “the-giver” API and returns the JSON response.
 export async function sendToTheGiver(command, data, opts = {}) {
-  const endpoint =process.env.NEXT_PUBLIC_BACKEND_API_URL+'/command'; // fallback for Next.js API route
+  const endpoint =`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/command`; // fallback for Next.js API route
   
   console.log(endpoint)
 
