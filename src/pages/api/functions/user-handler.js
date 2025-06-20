@@ -1,4 +1,4 @@
-import User from '../../schemas/user.js'
+import User from '../schemas/user.js'
 import connectDB from './connect-db.js'
 
 

@@ -2,8 +2,8 @@
 import mongoose from "mongoose";
 import connectDB from "./functions/connect-db";
 
-import User from '@/pages/schemas/user'
-import QrCode from '@/pages/schemas/qrcodes'
+import User from '@/pages/api/schemas/user'
+import QrCode from '@/pages/api/schemas/qrcodes'
 import parseUserAgent from "./functions/parse-user-agents";
 
 

@@ -1,6 +1,6 @@
 import mongoose, { set } from 'mongoose';
-import User from '@/pages/schemas/user';
-import QrCode from '../../schemas/qrcodes';
+import User from '@/pages/api/schemas/user';
+import QrCode from '../schemas/qrcodes';
 import connectDB from './connect-db';
 
 
