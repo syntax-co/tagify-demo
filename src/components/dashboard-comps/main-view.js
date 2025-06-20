@@ -40,11 +40,7 @@ const MainView = () => {
   }
   
 
-  useEffect(() => {
-    if (recentCodes.length>0) {
-      console.log(recentCodes)
-    }
-  }, [recentCodes]);
+ 
 
   useEffect(() => {
     if (user&&qrCodes) {

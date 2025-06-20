@@ -26,7 +26,12 @@ export default function Navbar() {
           href="/"
           className="text-xl font-bold bg-gradient-to-r from-[#FF312E] to-[#3C3C67] text-transparent bg-clip-text"
         >
-          Tagify
+          <div className="h-16 aspect-square
+          bg-center bg-contain"
+          style={{
+            backgroundImage:'url(./images/icon.png)'
+          }}
+          />
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
