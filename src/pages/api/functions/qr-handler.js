@@ -4,7 +4,7 @@ import QrCode from '../schemas/qrcodes';
 import connectDB from './connect-db';
 
 
-
+ 
 function initializeScanRates(days = 30) {
     const today = new Date();
     const result = [];

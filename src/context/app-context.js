@@ -64,7 +64,7 @@ export const AppProvider = ({ children }) => {
     }
 
     const response = await sendToTheGiver(command,data)
-
+    
 
     if (response.success) {
       setUser(response.user)
