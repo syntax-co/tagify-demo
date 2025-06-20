@@ -5,8 +5,7 @@ export async function sendToTheGiver(command, data, opts = {}) {
   
   console.log(
     process.env.NEXT_PUBLIC_BACKEND_API_URL,'-',
-    process.env.NEXT_PUBLIC_BASE_URL,'-',
-    process.env.MONGO_URI
+    process.env.NEXT_PUBLIC_BASE_URL
   )
 
 
