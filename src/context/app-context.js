@@ -67,7 +67,9 @@ export const AppProvider = ({ children }) => {
     
 
     if (response.success) {
-      setUser(response.user)
+      setTimeout(() => {
+        setUser(response.user)
+      }, 2000);
     } 
   }
 
