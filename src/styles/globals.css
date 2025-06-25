@@ -1,19 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import './fonts.css';
+
 
 :root {
   /* General color tokens (HEX-based medium-dark theme) */
-  --background: #2E2E3A;
+  --background: #2e2e2e;
   --foreground: #E5E5E5;
-
-  --card: #353550;
+  
+  --card: #373737;
   --card-foreground: #F0F0F0;
 
   --popover: #3C3C67;
   --popover-foreground: #FFFFFF;
 
-  --primary: #FF312E;
+  --primary: #FF5754;
   --primary-foreground: #FFFFFF;
 
   --secondary: #44445E;
@@ -71,13 +73,7 @@
 
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: var(--background);
 }
 
 @layer utilities {

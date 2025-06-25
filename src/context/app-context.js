@@ -1,19 +1,25 @@
 import { sendToTheGiver } from '@/helper-functions/contact-giver';
+import { useRouter } from 'next/router';
 import { createContext, useContext, useState,useEffect } from 'react';
+import { auth0 } from "@/lib/auth0";
+
+
+
 
 const AppContext = createContext();
 
-
 export const AppProvider = ({ children }) => {
 
-
+  
+  
   //       ███████╗████████╗ █████╗ ████████╗███████╗███████╗      
   //       ██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██╔════╝██╔════╝      
   // █████╗███████╗   ██║   ███████║   ██║   █████╗  ███████╗█████╗
   // ╚════╝╚════██║   ██║   ██╔══██║   ██║   ██╔══╝  ╚════██║╚════╝
   //       ███████║   ██║   ██║  ██║   ██║   ███████╗███████║      
   //       ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚══════╝      
-                                                                
+  
+  const router = useRouter()
   const [user, setUser] = useState(null);
   const [qrCodes, setQrCodes] = useState([]);
   const [selectedCode, setSelectedCode] = useState(null);
@@ -28,8 +34,23 @@ export const AppProvider = ({ children }) => {
 
 
 
-
+  //        █████╗ ██╗   ██╗████████╗██╗  ██╗ ██████╗       
+  //       ██╔══██╗██║   ██║╚══██╔══╝██║  ██║██╔═████╗      
+  // █████╗███████║██║   ██║   ██║   ███████║██║██╔██║█████╗
+  // ╚════╝██╔══██║██║   ██║   ██║   ██╔══██║████╔╝██║╚════╝
+  //       ██║  ██║╚██████╔╝   ██║   ██║  ██║╚██████╔╝      
+  //       ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝ ╚═════╝       
+                                                         
   
+
+  const sendToLogin = () => {
+    router.push('/auth/login')
+  }
+
+
+  const sendToLogout = () => {
+    router.push('/api/auth/logout')
+  }
 
 
 
@@ -57,7 +78,7 @@ export const AppProvider = ({ children }) => {
   }
 
   const getUser = async() => {
-
+    
     const command = 'get-user'
     const data = {
       username:'mini-pinata'
@@ -254,7 +275,9 @@ export const AppProvider = ({ children }) => {
         changeQrStatus,
         createQrCode,
         destroyQrCode,
-        checkSlugExists
+        checkSlugExists,
+        sendToLogin,
+        sendToLogout
       }}
     >
       {children}

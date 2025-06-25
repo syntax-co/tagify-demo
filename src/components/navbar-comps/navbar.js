@@ -4,12 +4,34 @@ import { useAppContext } from "../../context/app-context";
 import { useState, useRef, useEffect } from "react";
 import BouncyLoader from "../misc-comps/bouncy-loader";
 import { AnimatePresence, motion } from "framer-motion";
-
+import { useRouter } from "next/router";
+import { CiUser } from "react-icons/ci";
 
 const UserMenu = () => {
-
+  const router = useRouter()
   const dropdownRef = useRef(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [hovering,setHovering] = useState(false)
+
+  const userButtons = {
+    'dashboard':{
+      path:'/dashboard'
+    }
+  }
+
+
+  const hoverVariants = {
+    initial:{
+      backgroundColor:'#373737',
+      color:'#E5E5E5'
+    },
+    whileHover:{
+      backgroundColor:'#E5E5E5',
+      color:'#373737'
+    }
+  }
+
+  
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -23,33 +45,72 @@ const UserMenu = () => {
   }, []);
 
   return(
-    <motion.div key='user-menu' className="relative" ref={dropdownRef}       
+    <motion.div ref={dropdownRef} key='user-menu' 
+    className="relative 
+    flex justify-end
+    "        
     initial={{opacity:0}}
     animate={{opacity:1}}
     exit={{opacity:0}}
     >
-      <button
-        onClick={() => setDropdownOpen(!dropdownOpen)}
-        className="p-0 h-auto bg-transparent"
+
+      
+
+      <motion.button
+      onClick={() => setDropdownOpen(!dropdownOpen)}
+      className="p-1 h-auto cursor-pointer rounded-md
+      border border-foreground"
+
+      initial={{backgroundColor:'#2e2e2e',color:'#E5E5E5',borderColor:'#E5E5E5'}}
+      animate={{
+        backgroundColor:hovering||dropdownOpen? '#FF5754':'#2e2e2e',
+        color: hovering||dropdownOpen? '#373737':'#E5E5E5',
+        borderColor: hovering||dropdownOpen? '#2e2e2e':'#E5E5E5',
+      }}
+
+      onMouseEnter={() => {setHovering(true)}}
+      onMouseLeave={() => {setHovering(false)}}
       >
-        <UserCircle className="h-6 w-6 text-muted-foreground" />
-      </button>
-      {dropdownOpen && (
-        <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-10">
-          <Link
-            href="/dashboard"
-            className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
-          >
-            Dashboard
-          </Link>
-          <button
-            onClick={() => alert('Log out logic here')}
-            className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
-          >
-            Sign out
-          </button>
-        </div>
+
+        <CiUser className="" 
+        size={40}
+        />
+      </motion.button>
+
+      <AnimatePresence>
+      {
+        dropdownOpen && (
+        <motion.div className="absolute right-0 top-[120%] w-40 
+        overflow-hidden 
+        bg-card border  rounded-md shadow-lg z-10"
+        
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        >
+
+          {
+            Object.keys(userButtons).map((key,index) => {
+              
+              return (
+                <motion.div key={'item-'+index}
+                  className=" p-2 cursor-pointer"
+                  onClick={() =>{router.push("/dashboard")}}
+
+                  variants={hoverVariants}
+                  initial='initial'
+                  whileHover='whileHover'
+                >
+                  {key.slice(0,1).toUpperCase() + key.slice(1)}
+                </motion.div>
+              )
+            })
+          }
+
+          
+        </motion.div>
       )}
+      </AnimatePresence>
     </motion.div>
   )
 }
@@ -57,48 +118,50 @@ const UserMenu = () => {
 
 
 export default function Navbar() {
+  const router = useRouter()
   const { user } = useAppContext();
   
 
   return (
-    <header className="w-full sticky top-0 z-50 bg-card dark:bg-background border-b border-border">
-      <div className="container mx-auto px-6 sm:px-12 lg:px-20 py-4 flex items-center justify-between">
-        <Link
-          href="/"
-          className="text-xl font-bold bg-gradient-to-r from-[#FF312E] to-[#3C3C67] text-transparent bg-clip-text"
-        >
-          <div className="h-16 aspect-square
-          bg-center bg-contain"
-          style={{
-            backgroundImage:'url(./images/icon.png)'
-          }}
-          />
+    <div className="w-full h-[8vh] flex items-end
+    px-24
+    ">
+        
+      <div className="w-24 h-12 cursor-pointer
+      bg-center bg-contain bg-no-repeat"
+      style={{
+        backgroundImage:'url(./images/icon.png)'
+      }}
+      
+      onClick={() => {router.push('/')}}
+      />
+      
+
+      <div className="items-center gap-6 ml-auto
+      ">
+        {/* <Link href="#features" className="text-sm text-muted-foreground hover:text-black dark:hover:text-white transition">
+          Features
         </Link>
-
-        <nav className="hidden md:flex items-center gap-6">
-          {/* <Link href="#features" className="text-sm text-muted-foreground hover:text-black dark:hover:text-white transition">
-            Features
-          </Link>
-          <Link href="" className="text-sm text-muted-foreground hover:text-black dark:hover:text-white transition">
-            Pricing
-          </Link> */}
-          
-          <div className="w-16 max-w-16"
-          >
-            <AnimatePresence mode="wait">
-              {
-                user ? 
-                <UserMenu key='user-menu' />:
-                <BouncyLoader key='bouncy-loader' />     
-              }
-            </AnimatePresence>
-            </div>
-        </nav>
-
-        <div className="md:hidden">
-          <Menu className="h-6 w-6 text-muted-foreground" />
-        </div>
+        <Link href="" className="text-sm text-muted-foreground hover:text-black dark:hover:text-white transition">
+          Pricing
+        </Link> */}
+        
+        <div className="w-16 max-w-16"
+        >
+          <AnimatePresence mode="wait">
+            {
+              user ? 
+              <UserMenu key='user-menu' />:
+              <BouncyLoader key='bouncy-loader' />     
+            }
+          </AnimatePresence>
+          </div>
       </div>
-    </header>
+
+      <div className="md:hidden">
+        <Menu className="h-6 w-6 text-muted-foreground" />
+      </div>
+
+    </div>
   );
 }
