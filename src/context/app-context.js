@@ -1,7 +1,7 @@
 import { sendToTheGiver } from '@/helper-functions/contact-giver';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useState,useEffect } from 'react';
-import { auth0 } from "@/lib/auth0";
+
 
 
 
@@ -44,7 +44,7 @@ export const AppProvider = ({ children }) => {
   
 
   const sendToLogin = () => {
-    router.push('/auth/login')
+    router.push('/api/auth/login')
   }
 
 
