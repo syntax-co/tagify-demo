@@ -73,7 +73,7 @@ const UserMenu = () => {
       >
 
         <CiUser className="" 
-        size={40}
+        size={30}
         />
       </motion.button>
 
@@ -123,11 +123,11 @@ export default function Navbar() {
   
 
   return (
-    <div className="w-full h-[8vh] flex items-end
-    px-24
+    <div className="w-full h-[8vh] flex items-center
+    px-24 bg-background border-b border-foreground
     ">
         
-      <div className="w-24 h-12 cursor-pointer
+      <div className="w-16 aspect-video cursor-pointer
       bg-center bg-contain bg-no-repeat"
       style={{
         backgroundImage:'url(./images/icon.png)'
@@ -146,7 +146,7 @@ export default function Navbar() {
           Pricing
         </Link> */}
         
-        <div className="w-16 max-w-16"
+        <div className="w-12"
         >
           <AnimatePresence mode="wait">
             {
@@ -158,9 +158,7 @@ export default function Navbar() {
           </div>
       </div>
 
-      <div className="md:hidden">
-        <Menu className="h-6 w-6 text-muted-foreground" />
-      </div>
+      
 
     </div>
   );

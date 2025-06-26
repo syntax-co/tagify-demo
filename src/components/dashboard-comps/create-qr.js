@@ -86,13 +86,16 @@ const CreateQRCodeSection = () => {
 
     if (form.slug && form.target && !slugExists) {
       activatePanel('loading')
-      const qrData = formToQRCodeDoc(form, user.authId)
+      const qrData = formToQRCodeDoc(form, user.sub)
       
       
 
       if (qrData) {
-        qrData['ownerId'] = user.authId
-        const data = {qrData}
+
+        const data = {
+          ownerId:user.sub,
+          qrData
+        }
 
         const response = createQrCode(data)
 
@@ -115,7 +118,7 @@ const CreateQRCodeSection = () => {
     
     const data = {
       slug:form.slug,
-      ownerId:user.authId,
+      ownerId:user.sub,
     }
 
     const response = await checkSlugExists(data)
@@ -214,136 +217,106 @@ const CreateQRCodeSection = () => {
         Create New QR Code
       </h2>
 
-      <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-2">
+      <div className="w-1/2 mx-auto">
         {/* ────────────────── Form Card ────────────────── */}
         
         <form onSubmit={handleSubmit}>
-          <Card>
+          <Card
+          >
             <CardHeader>
               <CardTitle>QR Code Details</CardTitle>
             </CardHeader>
 
               
-              <CardContent className="space-y-6">
-                {/* Slug & Target */}
-                
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <Label htmlFor="slug" className="mb-1 block">
-                      Slug (path)
-                    </Label>
-                    <Input
-                      required
-                      id="slug"
-                      placeholder="summer-sale"
-                      value={form.slug}
-                      onChange={handleChange('slug')}
-                      style={{
-                        borderColor: slugExists? '#ce1f1f' : '#3B3B4D',
-                      }}
+            <CardContent className="space-y-6">
+              {/* Slug & Target */}
+              
+              <div
+              style={{
+                width: form.size,
+                height: form.size,
+                borderRadius: form.shape === 'circle' ? '50%' : '0px',
+                overflow: 'hidden',
+              }}
+              className="flex items-center justify-center bg-muted rounded-lg
+              mx-auto"
+              >
+                <div ref={qrRef} />
+              </div>
 
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="target" className="mb-1 block">
-                      Destination URL
-                    </Label>
-                    <Input
-                      required
-                      id="target"
-                      placeholder="https://example.com"
-                      value={form.target}
-                      onChange={handleChange('target')}
-                    />
-                  </div>
-                </div>
-
-                {/* Color, Size, Dynamic */}
-                <div className="grid gap-4 sm:grid-cols-3">
-                  <div>
-                    <Label htmlFor="color" className="mb-1 block">
-                      Color
-                    </Label>
-                    <Input
-                      id="color"
-                      type="color"
-                      value={form.color}
-                      onChange={handleChange('color')}
-                      className="h-10 p-1"
-                    />
-                  </div>
-                  <div>
-                    <Label className="mb-1 block">Size&nbsp;(px)</Label>
-                    <Select
-                      value={String(form.size)}
-                      onValueChange={(v) =>
-                        setForm((prev) => ({ ...prev, size: Number(v) }))
-                      }
-                    >
-                      <SelectTrigger>{form.size}</SelectTrigger>
-                      <SelectContent>
-                        {[128, 256, 512].map((s) => (
-                          <SelectItem key={s} value={String(s)}>
-                            {s}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                </div>
-
-                {/* Dot Style & Shape */}
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <Label className="mb-1 block">Dot Style</Label>
-                    <Select
-                      value={form.dotStyle}
-                      onValueChange={(v) => setForm((p) => ({ ...p, dotStyle: v }))}
-                    >
-                      <SelectTrigger>{form.dotStyle}</SelectTrigger>
-                      <SelectContent>
-                        {DOT_STYLES.map((style) => (
-                          <SelectItem key={style} value={style} className="capitalize">
-                            {style}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <div className="flex flex-col-reverse gap-2 mt-6 sm:mt-0">
-                      <Switch
-                        checked={form.dynamic}
-                        onCheckedChange={(v) =>
-                          setForm((prev) => ({ ...prev, dynamic: v }))
-                        }
-                      />
-                      <span className="text-sm text-foreground">Dynamic (editable)</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Logo */}
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <Label htmlFor="logoUpload" className="mb-1 block">
-                    Center Logo (optional)
+                  <Label htmlFor="slug" className="mb-1 block">
+                    Slug (path)
                   </Label>
                   <Input
-                    id="logoUpload"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleLogoUpload}
-                  />
-                  {form.logo && (
-                    <p className="mt-1 text-xs text-muted-foreground truncate">
-                      {form.logo.name}
-                    </p>
-                  )}
-                </div>
+                    required
+                    id="slug"
+                    placeholder="summer-sale"
+                    value={form.slug}
+                    onChange={handleChange('slug')}
+                    style={{
+                      borderColor: slugExists? '#ce1f1f' : '#3B3B4D',
+                    }}
 
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="target" className="mb-1 block">
+                    Destination URL
+                  </Label>
+                  <Input
+                    required
+                    id="target"
+                    placeholder="https://example.com"
+                    value={form.target}
+                    onChange={handleChange('target')}
+                  />
+                </div>
+              </div>
+
+              {/* Color, Size, Dynamic */}
+              <div className="flex">
+                <div className='w-1/3'
+                >
+                  <Label htmlFor="color" className="mb-1 block">
+                    Color
+                  </Label>
+                  <Input
+                    id="color"
+                    type="color"
+                    value={form.color}
+                    onChange={handleChange('color')}
+                    className="h-10 p-1"
+                  />
+                </div>
                 
-              </CardContent>
+                <div className='mx-auto'
+                >
+                  <Label className="mb-1 block">Dot Style</Label>
+                  <Select
+                    value={form.dotStyle}
+                    onValueChange={(v) => setForm((p) => ({ ...p, dotStyle: v }))}
+                  >
+                    <SelectTrigger>{form.dotStyle}</SelectTrigger>
+                    <SelectContent>
+                      {DOT_STYLES.map((style) => (
+                        <SelectItem key={style} value={style} className="capitalize">
+                          {style}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+              </div>
+
+              
+
+              
+            
+              
+            </CardContent>
 
             <CardFooter>
               <Button type="submit" className="ml-auto">
@@ -353,25 +326,7 @@ const CreateQRCodeSection = () => {
           </Card>
         </form>
 
-        {/* ────────────────── Preview Card ────────────────── */}
-        <Card className="flex flex-col items-center justify-center">
-          <CardHeader>
-            <CardTitle>Preview</CardTitle>
-          </CardHeader>
-          <CardContent className="flex items-center justify-center p-6">
-            <div
-              style={{
-                width: form.size,
-                height: form.size,
-                borderRadius: form.shape === 'circle' ? '50%' : '0px',
-                overflow: 'hidden',
-              }}
-              className="flex items-center justify-center bg-muted rounded-lg"
-            >
-              <div ref={qrRef} />
-            </div>
-          </CardContent>
-        </Card>
+        
       </div>
     </div>
   )

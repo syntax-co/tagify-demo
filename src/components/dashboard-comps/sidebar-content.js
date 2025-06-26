@@ -18,7 +18,7 @@ const SidebarContent = ({ navItems }) => {
   
   return (
     <div className="flex flex-col h-full">
-      <Card className='h-full w-full rounded-l-none
+      <Card className='h-full w-full rounded-none
       flex flex-col' 
       >
         <div className="p-6 text-2xl font-extrabold tracking-tight text-foreground"></div>

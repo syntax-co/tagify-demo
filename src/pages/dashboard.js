@@ -46,7 +46,7 @@ const TagifyDashboard = () => {
   return (
     
     <UserCheck >
-      <div className="h-[94vh] bg-background text-foreground flex">
+      <div className="h-[94vh] bg-card text-foreground flex">
         {/* Mobile sidebar – Sheet */}
         <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
           <SheetTrigger asChild>

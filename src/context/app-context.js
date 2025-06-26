@@ -1,4 +1,5 @@
 import { sendToTheGiver } from '@/helper-functions/contact-giver';
+import { useUser } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useState,useEffect } from 'react';
 
@@ -20,7 +21,8 @@ export const AppProvider = ({ children }) => {
   //       ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚══════╝      
   
   const router = useRouter()
-  const [user, setUser] = useState(null);
+  const {user,isLoading} = useUser()
+  const [userData, setUser] = useState(null);
   const [qrCodes, setQrCodes] = useState([]);
   const [selectedCode, setSelectedCode] = useState(null);
   const [currentPanel,setCurrentPanel] = useState('overview')
@@ -63,13 +65,13 @@ export const AppProvider = ({ children }) => {
   //       ╚═╝      ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝╚══════╝      
   
   
-  // user functions
   
+  // user functions
   const addUser = async() => {
     const command = 'add-user'
     const data = {
-      authId:user.authId,
-      username: user.username,
+      authId:userData.authId,
+      username: userData.username,
       role:'free'
     }
 
@@ -77,12 +79,13 @@ export const AppProvider = ({ children }) => {
 
   }
 
-  const getUser = async() => {
+  const getUserData = async() => {
     
     const command = 'get-user'
     const data = {
-      username:'mini-pinata'
+      username:user.name
     }
+
 
     const response = await sendToTheGiver(command,data)
     
@@ -96,7 +99,7 @@ export const AppProvider = ({ children }) => {
 
 
   const getRecentCodes = async() => {
-    const recentSlugs = user.meta.recentScans 
+    const recentSlugs = userData.meta.recentScans 
     const holder = []
     
 
@@ -124,14 +127,14 @@ export const AppProvider = ({ children }) => {
 
   const createQrCode = async(data) => {
     const response = await sendToTheGiver('create-qr',data)
-    console.log(response)
   }
 
   const getQrCodes = async() => {
+    
 
     const command = 'get-user-qr-codes'
     const data = {
-      ownerId: user.authId
+      ownerId: userData.authId
     }
     
     const response = await sendToTheGiver(command,data)
@@ -146,7 +149,7 @@ export const AppProvider = ({ children }) => {
 
     const command = 'update-qr'
     const data = {
-      username:user.username,
+      username:userData.username,
       slug:selectedCode.slug,
       updatedQr:selectedCode
     }
@@ -166,7 +169,7 @@ export const AppProvider = ({ children }) => {
 
     const command = 'delete-qr'
     const data = {
-      username:user.username,
+      username:userData.username,
       slug:selectedCode.slug
     }
 
@@ -229,8 +232,10 @@ export const AppProvider = ({ children }) => {
   //   ╚═══╝    ╚═══╝    ╚═══╝    ╚═══╝    ╚═══╝    ╚═══╝    ╚═══╝  
                                                                  
   useEffect(() => {
-    getUser();
-  }, []);
+    if (user) {
+      getUserData();
+    }
+  }, [user]);
 
 
   useEffect(() => {
@@ -246,10 +251,10 @@ export const AppProvider = ({ children }) => {
   }, [qrCodes]);
 
   useEffect(() => {
-    if (user) {
+    if (userData) {
       getQrCodes();
     }
-  }, [user,currentPanel]);
+  }, [userData,currentPanel]);
 
 
                                                                           
@@ -264,6 +269,7 @@ export const AppProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         user,
+        userData,
         qrCodes,
         currentPanel,
         selectedCode,

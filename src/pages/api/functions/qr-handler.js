@@ -69,7 +69,7 @@ const updateQrCode = async(data) => {
         
             
             const qr = await QrCode.findOneAndUpdate(
-                {ownerId:user.authId,slug:slug},
+                {ownerId:user.sub,slug:slug},
                 {$set: clean}
             )
 
@@ -101,7 +101,7 @@ const deleteQrCode = async(data) => {
         
         if (user) {
             
-            const delresponse = await QrCode.deleteOne({ownerId:user.authId,slug:slug});
+            const delresponse = await QrCode.deleteOne({ownerId:user.sub,slug:slug});
             
             if (delresponse.deletedCount == 0)  {
                 return {success:false, message:'QR Code not found'}

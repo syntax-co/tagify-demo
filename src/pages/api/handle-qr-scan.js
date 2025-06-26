@@ -52,7 +52,7 @@ export default async function handler(req, res) {
         const user = await User.findOne({username})
         
         if (user) {
-            const authId = user.authId
+            const authId = user.sub
 
             const qr = await QrCode.findOne({
                 ownerId:authId,

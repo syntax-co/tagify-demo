@@ -5,13 +5,13 @@ import MirageLoader from "./mirage-loader";
 
 const UserCheck = ({children}) => {
 
-    const {user} = useAppContext();
+    const {user,userData} = useAppContext();
 
     return (
         <div className=""
         >
             {
-                user?
+                (user&&userData)?
                 children:
                 <MirageLoader />
             }
